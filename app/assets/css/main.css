@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #08090a;
+  --surface-1: #101214;
+  --surface-2: #16191c;
+  --surface-3: #1d2125;
+  --hairline: #262b30;
+  --hairline-strong: #454d54;
+  --ink: #f2f4f5;
+  --ink-muted: #c4c9cd;
+  --ink-subtle: #8b939a;
+  --silver: #c8ccce;
+  --teal: #00d2be;
+  --teal-hover: #3fe6d6;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-silver: var(--silver);
+  --color-teal: var(--teal);
+  --color-teal-hover: var(--teal-hover);
+  --font-sans: "Titillium Web", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "Titillium Web", system-ui, sans-serif;
+}
+
+#__nuxt {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+::selection {
+  background: var(--teal);
+  color: #041211;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.cut-right {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---- modern layer ---- */
+.spot {
+  border-top-color: rgba(200, 204, 206, 0.2);
+  box-shadow: inset 0 1px 0 rgba(200, 204, 206, 0.06);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.spot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.06) 50%, transparent 62%);
+  transform: translateX(-130%);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.spot:hover::after {
+  transform: translateX(130%);
+}
+.spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 210, 190, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.spot:hover::before {
+  opacity: 1;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 75%);
+}
+
+@keyframes streak {
+  from {
+    transform: translateX(-40vw);
+  }
+  to {
+    transform: translateX(140vw);
+  }
+}
+.streak {
+  position: absolute;
+  left: 0;
+  height: 1px;
+  width: 38vw;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0.55;
+  animation: streak 7s linear infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+.nudge {
+  animation: nudge 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .streak,
+  .nudge {
+    animation: none;
+  }
+}
+
+/* ---- livery layer ---- */
+.metal {
+  background-image: linear-gradient(180deg, #f2f4f5 0%, #a3abb1 52%, #dfe3e5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.22em;
+  margin-right: -0.22em;
+}
+
+.metal-soft {
+  background-image: linear-gradient(180deg, #f2f4f5 0%, #b4bbc0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.22em;
+  margin-right: -0.22em;
+}
+
+.num-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(200, 204, 206, 0.13);
+}
+
+@keyframes checker-run {
+  to {
+    background-position: 28px 0;
+  }
+}
+.checker {
+  height: 28px;
+  background: repeating-conic-gradient(#c8ccce 0 25%, #0b0c0d 0 50%) 0 0 / 28px 28px;
+  opacity: 0.85;
+  animation: checker-run 2.4s linear infinite;
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+@keyframes livery-in {
+  from {
+    transform: translateX(120px) skewX(-18deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) skewX(-18deg);
+    opacity: 1;
+  }
+}
+.livery {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: skewX(-18deg);
+  animation: livery-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both;
+}
+.livery-teal {
+  right: 9%;
+  width: 14px;
+  background: var(--teal);
+}
+.livery-silver {
+  right: calc(9% - 26px);
+  width: 6px;
+  background: var(--silver);
+  animation-delay: 0.55s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checker,
+  .livery {
+    animation: none;
+  }
+}
+
+/* ---- Vue transitions (replace React AnimatePresence) ---- */
+.swap-enter-active,
+.swap-leave-active {
+  transition:
+    opacity 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.swap-enter-from {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.swap-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+.copy-enter-active,
+.copy-leave-active {
+  transition:
+    opacity 0.18s,
+    transform 0.18s;
+}
+.copy-enter-from {
+  opacity: 0;
+  transform: scale(0.4) rotate(-90deg);
+}
+.copy-leave-to {
+  opacity: 0;
+  transform: scale(0.4) rotate(90deg);
+}
