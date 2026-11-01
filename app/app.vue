@@ -15,6 +15,10 @@ import {
   screenshotFor,
 } from "~/data/content";
 
+// Two independent columns so opening one row never stretches its neighbour.
+const half = Math.ceil(rest.length / 2);
+const restColumns = [rest.slice(0, half), rest.slice(half)];
+
 const btnPrimary =
   "cut-right group inline-flex items-center gap-2 bg-teal py-3.5 pl-7 pr-10 font-bold uppercase tracking-wide text-[#041211] transition-all hover:bg-teal-hover active:scale-[0.98]";
 const btnGhost =
@@ -181,8 +185,9 @@ const btnGhost =
 
         <Reveal class="mt-16">
           <h3 class="text-2xl font-bold italic tracking-tight">More Systems</h3>
-          <ul class="mt-6 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
-            <li v-for="p in rest" :key="p.name" class="border-b border-hairline">
+          <div class="mt-6 grid grid-cols-1 items-start lg:grid-cols-2 lg:gap-x-12">
+            <ul v-for="(col, ci) in restColumns" :key="ci">
+            <li v-for="p in col" :key="p.name" class="border-b border-hairline">
               <details class="group">
                 <summary
                   class="flex cursor-pointer list-none items-center gap-4 py-4 pr-1 transition-colors hover:text-teal [&::-webkit-details-marker]:hidden"
@@ -214,7 +219,8 @@ const btnGhost =
                 </div>
               </details>
             </li>
-          </ul>
+            </ul>
+          </div>
         </Reveal>
       </section>
 
